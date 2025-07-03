@@ -1,0 +1,27 @@
+name: Deploy to Amplify
+
+on:
+  push:
+    branches:
+      - main  # Cambia a "master" si usas esa rama
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2  # Cambia según tu región de AWS
+
+      - name: Deploy to Amplify
+        uses: aws-actions/amplify_deploy@v1
+        with:
+          app-name: clinicemente-neuropsicologia  # Nombre de tu aplicación de Amplify
+          branch: main  # Rama del repositorio
+          region: us-east-2  # Región de AWS
